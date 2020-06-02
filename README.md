@@ -10,7 +10,7 @@ minimal vaible product for a robot combat simulator game.
 *JavaScript
 
 ## Website
-https://rhw-git.github.io/run-buddy/
+
 
 ## Contribution
 

@@ -156,6 +156,10 @@ var fight = function(enemy) {
 
             //player gets attacked first
         }else{
+            if (fightOrSkip()){
+                break;
+            };
+
             //remove player's health by subtracting the amount set in the enemyAttack variable 
             var damage = randomNumber(enemy.attack-3, enemy.attack);
             playerInfo.health = Math.max(0, playerInfo.health - damage);
@@ -213,11 +217,26 @@ var startGame = function() {
     //function to end game
     var endGame = function(){
         window.alert("The game has now ended. Let's see how you did!")
-        //the player win, if them still alive
-        if (playerInfo.health>0){
-            window.alert("Great job! You've survived the game! You now have a score of " + playerInfo.money +".");
+
+        // check localStorage for high score, if it's not there, use 0
+        var highScore = localStorage.getItem("highScore")
+        highScore = highScore || -1000;
+
+
+        //if player have more money than the high score, player has new high score!
+        if (highScore <= playerInfo.money){
+            localStorage.setItem("highScore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+
+            window.alert(
+                playerInfo.name + " name has the highest score of " + playerInfo.money + " !"
+            );
+
+        // retrive the high score
         }else{
-            window.alert("You've lost your robot in battle.");
+            window.alert(
+                playerInfo.name + " did not beat the highest score of " + highScore  + ". Maybe next time!"
+            );
         }
 
         //ask player if they'd like to play again
@@ -228,6 +247,7 @@ var startGame = function() {
         }else{
             window.alert("Thank you for playing Robot Gladiators! Come back soon!");
         }
+
     }
 
     // after the loop ends, player is either out of health or enemies to fight, so run the endGame function.
